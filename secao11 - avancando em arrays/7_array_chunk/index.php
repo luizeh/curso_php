@@ -5,3 +5,4 @@ print_r(array_chunk($arr, 4));
 echo "<hr>";
 //divide um array em tantos arrays que voce quiser.
 ?>
+Miniatura da aula
