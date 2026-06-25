@@ -1,0 +1,93 @@
+/* =========================================================
+   HEADER — Navegação principal do blog
+   ========================================================= */
+
+header {
+  background-color: var(--color-bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  min-height: var(
+    --header-height
+  ); /* garante altura igual à variável --header-height */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Logo --- */
+#logo {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+#logo:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+/* --- Navegação --- */
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: var(--space-xs) 2px;
+  position: relative;
+  transition: color var(--transition);
+}
+
+/* Linha animada embaixo do link */
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition);
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* =========================================================
+   RESPONSIVIDADE DO HEADER
+   ========================================================= */
+
+@media (max-width: 600px) {
+  header {
+    padding: var(--space-sm) var(--space-md);
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  nav ul {
+    gap: var(--space-md);
+  }
+
+  nav a {
+    font-size: 0.85rem;
+  }
+}

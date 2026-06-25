@@ -1,0 +1,284 @@
+/* =========================================================
+   POST — Página de leitura de um post individual
+
+   ESTRUTURA DO HTML (não pode ser alterada):
+   <body>
+     <header>...</header>
+     <main id="post-container">          ← conteúdo principal
+       <div class="content-container">
+         <h1>, <p>, <div.img>, <p.post-content>
+       </div>
+     </main>
+     <aside id="nav-container">          ← sidebar (irmão do main!)
+       <h3>Tags</h3>
+       <ul id="tag-list">
+       <h3>Categorias</h3>
+       <ul id="categories-list">
+     </aside>
+     <footer>...</footer>
+   </body>
+
+   SOLUÇÃO: <main> e <aside> são irmãos no body.
+   Usamos body:has(#post-container) para converter o body
+   em CSS Grid, colocando-os lado a lado sem tocar no HTML.
+   ========================================================= */
+
+/* =========================================================
+   GRID DO BODY — só ativo na página de post
+   ========================================================= */
+body:has(#post-container) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Header ocupa ambas as colunas */
+body:has(#post-container) > header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+/* Conteúdo principal — coluna esquerda */
+body:has(#post-container) > #post-container {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* Sidebar — coluna direita */
+body:has(#post-container) > #nav-container {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Footer ocupa ambas as colunas — largura 100% garantida */
+body:has(#post-container) > footer {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  width: 100%; /* garante sem margens laterais no contexto do grid */
+  min-width: 0;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL (#post-container)
+   ========================================================= */
+
+#post-container {
+  padding: var(--space-xl);
+  background: var(--color-bg);
+  min-width: 0; /* evita overflow em grid */
+}
+
+.content-container {
+  background: var(--color-bg-card);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  min-width: 0;
+  /* Limita o comprimento de linha para conforto de leitura (~75 chars) */
+  max-width: var(--content-max-width);
+}
+
+/* Título do post */
+.content-container h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin-bottom: var(--space-sm);
+}
+
+/* Descrição / subtítulo */
+.content-container > p:first-of-type {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Imagem de capa */
+.content-container .img {
+  margin-bottom: var(--space-xl);
+}
+
+.content-container .img img {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* Parágrafos do artigo */
+.post-content {
+  font-size: 1rem;
+  line-height: 1.95;
+  color: #374151;
+  margin-bottom: var(--space-lg);
+}
+
+.post-content:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   SIDEBAR (#nav-container)
+   ========================================================= */
+
+#nav-container {
+  padding: var(--space-lg) var(--space-md) var(--space-xl) var(--space-md);
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  /*
+   * BUG CORRIGIDO: top era 0, sobrepondo o header sticky.
+   * Agora usa --header-height para iniciar exatamente abaixo do header.
+   * height usa calc para não ultrapassar a viewport.
+   */
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Cards internos para cada bloco (Tags e Categorias) */
+#nav-container h3 {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-xs);
+  margin-top: var(--space-md);
+  padding: 0 var(--space-sm);
+}
+
+/* Primeiro h3 sem margin-top extra */
+#nav-container h3:first-child {
+  margin-top: 0;
+}
+
+/* Listas de tags e categorias — layout em coluna vertical (estilo tabela) */
+#tag-list,
+#categories-list {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cada link ocupa uma linha inteira */
+#tag-list a,
+#categories-list a {
+  display: block;
+  width: 100%;
+  padding: 9px var(--space-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    padding-left var(--transition);
+}
+
+/* Remove a borda inferior do último item */
+#tag-list a:last-child,
+#categories-list a:last-child {
+  border-bottom: none;
+}
+
+/* Hover: destaca a linha com cor primária e indent sutil */
+#tag-list a:hover,
+#categories-list a:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding-left: calc(var(--space-md) + 6px);
+  font-weight: 600;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+/* Tablet — sidebar encolhe */
+@media (max-width: 900px) {
+  body:has(#post-container) {
+    grid-template-columns: minmax(0, 1fr) 220px;
+  }
+
+  #post-container {
+    padding: var(--space-lg);
+  }
+
+  .content-container {
+    padding: var(--space-lg);
+  }
+
+  .content-container h1 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Mobile — sidebar vai para baixo do conteúdo */
+@media (max-width: 640px) {
+  body:has(#post-container) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+
+  body:has(#post-container) > #post-container {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  body:has(#post-container) > #nav-container {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  body:has(#post-container) > footer {
+    grid-row: 4;
+  }
+
+  #post-container {
+    padding: var(--space-md);
+  }
+
+  .content-container {
+    padding: var(--space-md);
+  }
+
+  .content-container h1 {
+    font-size: 1.4rem;
+  }
+
+  #nav-container {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 0 var(--space-md) var(--space-xl);
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  #nav-container h3 {
+    width: 100%;
+    margin-top: var(--space-md);
+  }
+
+  #tag-list,
+  #categories-list {
+    width: 100%;
+  }
+}

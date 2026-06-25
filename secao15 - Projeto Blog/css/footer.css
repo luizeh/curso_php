@@ -1,0 +1,21 @@
+/* =========================================================
+   FOOTER — Rodapé do blog
+   ========================================================= */
+
+footer {
+  display: block; /* garante comportamento de bloco em qualquer contexto */
+  width: 100%; /* ocupa sempre 100% do container pai (flex ou grid)   */
+  min-width: 0; /* previne overflow em contexto grid                   */
+  background-color: var(--color-bg-dark);
+  color: rgba(
+    255,
+    255,
+    255,
+    0.55
+  ); /* ligeiramente mais legível que 0.45                  */
+  text-align: center;
+  padding: var(--space-lg) var(--space-xl);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}

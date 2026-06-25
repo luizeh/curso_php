@@ -1,0 +1,108 @@
+/* =========================================================
+   BASE — Reset, variáveis globais e estilos fundamentais
+   ========================================================= */
+
+/* --- Variáveis CSS --- */
+:root {
+  /* Cores principais */
+  --color-primary: #6c63ff;
+  --color-primary-dark: #574fd6;
+  --color-primary-light: #ede9ff;
+
+  /* Tons de texto */
+  --color-text: #1a1a2e;
+  --color-text-muted: #6b7280;
+  --color-text-light: #9ca3af;
+
+  /* Fundos */
+  --color-bg: #f8f9fc;
+  --color-bg-card: #ffffff;
+  --color-bg-dark: #0f0f1a;
+  --color-bg-dark-2: #1a1a2e;
+
+  /* Bordas e divisores */
+  --color-border: #e5e7eb;
+  --color-border-light: #f1f3f5;
+
+  /* Tag / badge */
+  --color-tag-bg: #ede9ff;
+  --color-tag-text: #6c63ff;
+
+  /* Tipografia */
+  --font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-size-base: 16px;
+
+  /* Espaçamentos */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+
+  /* Bordas arredondadas */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 2px 12px rgba(108, 99, 255, 0.08);
+
+  /* Transições */
+  --transition: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Layout global — usadas em header, post e sidebar */
+  --header-height: 76px; /* padding 16px×2 + logo 44px               */
+  --content-max-width: 860px; /* largura máx. para leitura confortável    */
+  --sidebar-width: 270px; /* largura da sidebar na página de post     */
+}
+
+/* --- Reset universal --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Documento base --- */
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* previne scroll horizontal em qualquer viewport */
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* --- Links base --- */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --- Imagens responsivas por padrão --- */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* --- Listas --- */
+ul {
+  list-style: none;
+}
